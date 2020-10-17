@@ -1,11 +1,11 @@
-## Zvolené téma:    ...
+## Zvolené téma: Kurzy devizového trhu
 
-### Řešitelé: (uveďte jména, příjmení a loginy jednotlivých řešitelů)
+### Řešitelé: (Jozef Karabelly [xkarab03], Martin Eršek [xersek00])
 
 ### Zvolené dotazy a formulace vlastního dotazu:
 
-- ...
-- ...
+- vytvořte popisné charakteristiky pro alespoň 10 zvolených měn (využijte krabicové grafy, histogramy, atd.) [skupina A]
+- najděte skupiny měn s podobným chováním (skupiny měn, které obvykle současně posilují/oslabují) [skupina B]
 - ...
 
 ### Stručná charakteristika zvolené datové sady:
