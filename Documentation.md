@@ -19,5 +19,6 @@ https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-dev
 
 Na ďalších riadkoch nasledujú dáta kurzov, kde každý riadok obsahuje jednu menu napr.: `Austrálie|dolar|1|AUD|23,282`. Zvolené dotazy budú zodpovedané hlavne s dátami v stĺpcoch `množství`, `kód`, `kurz` a zvyšné stĺpce budú použité na lepšie formátovanie zobrazených dát. 
 
-### Zvolený způsob uložení uložení surových dat:
-(Zde stručně charakterizujte NoSQL databázi, která bude využita pro uložení zvolených zdrojových dat.) 
+### Zvolený způsob uložení surových dat:
+(Zde stručně charakterizujte NoSQL databázi, která bude využita pro uložení zvolených zdrojových dat.)
+TODO: Influxdb vs. Cassandra
