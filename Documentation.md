@@ -20,5 +20,13 @@ https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-dev
 Na ďalších riadkoch nasledujú dáta kurzov, kde každý riadok obsahuje jednu menu napr.: `Austrálie|dolar|1|AUD|23,282`. Zvolené dotazy budú zodpovedané hlavne s dátami v stĺpcoch `množství`, `kód`, `kurz` a zvyšné stĺpce budú použité na lepšie formátovanie zobrazených dát. 
 
 ### Zvolený způsob uložení surových dat:
-(Zde stručně charakterizujte NoSQL databázi, která bude využita pro uložení zvolených zdrojových dat.)
-TODO: Influxdb vs. Cassandra
+Pre ukladanie dát je zvolená NoSQL databáza Apache Cassandra, ktorá má nasledovné charakteristiky:
+- Tzv. „wide-column store“ NoSQL databáza, teda používa tabuľky, sĺpce a riadky, podobne ako relačné databázy. Avšak narozdiel od RDBMS rôzne riadky v rovnakej tabuľke nemusia zdieľať rovnakú množinu stĺpcov a stĺpce môžu byť pridávané do jedného alebo viacerých riadkov v tabuľke.
+
+- Dáta v tabuľke sú indexované pomocou „partition“ a „clustering“ klúčov, tzn. primárny kľúč sa delí na tieto dve časti, tj. dve skupiny sĺpcov. Ostatné stĺpce môžu byť indexované zvlášť od primárneho kľúča.
+
+- „Partition key“ rozdeluje dáta v tabuľke medzi uzly tak, že používa hash tabuľku pre nájdenie uzlu, kde sú dáta časti tabuľky uložené.
+
+- „Clustering key“ usporiadúva dáta v každej časti tabuľky, kde používa B+ strom na indexovanie dát na jednom uzly.
+
+- Podporuje aj nastavenie TTL (time-to-live), teda po vypršaní sú dané riadky vymazané.
