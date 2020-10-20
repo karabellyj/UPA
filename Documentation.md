@@ -23,7 +23,7 @@ Na ďalších riadkoch nasledujú dáta kurzov, kde každý riadok obsahuje jedn
 Pre ukladanie dát je zvolená NoSQL databáza Apache Cassandra, ktorá má nasledovné charakteristiky:
 - Tzv. „wide-column store“ NoSQL databáza, teda používa tabuľky, sĺpce a riadky, podobne ako relačné databázy. Avšak narozdiel od RDBMS rôzne riadky v rovnakej tabuľke nemusia zdieľať rovnakú množinu stĺpcov a stĺpce môžu byť pridávané do jedného alebo viacerých riadkov v tabuľke.
 
-- Dáta v tabuľke sú indexované pomocou „partition“ a „clustering“ klúčov, tzn. primárny kľúč sa delí na tieto dve časti, tj. dve skupiny sĺpcov. Ostatné stĺpce môžu byť indexované zvlášť od primárneho kľúča.
+- Dáta v tabuľke sú indexované pomocou „partition“ a „clustering“ klúčov, tzn. primárny kľúč sa delí na tieto dve časti, tj. dve skupiny stĺpcov. Ostatné stĺpce môžu byť indexované zvlášť od primárneho kľúča.
 
 - „Partition key“ rozdeluje dáta v tabuľke medzi uzly tak, že používa hash tabuľku pre nájdenie uzlu, kde sú dáta časti tabuľky uložené.
 
