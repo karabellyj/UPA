@@ -22,14 +22,15 @@ def get_values_for_date(date):
 	response = requests.get(bank_url + bank_api_endpoint + date)
 
 	if response.status_code != 200:
-		print("API request failed, return code %d"%response.status_code)
+		print("API request failed, return code %d" % response.status_code)
 		sys.exit(1)
 
 	r = response.text
 	r_lines = r.splitlines()
 
-	#check if first line returned from API has correct date
-	#this happens when weekend days are requested or if date belongs to holiday days
+	# check if first line returned from API has correct date
+	# when requested date is bad (weekend day or if date belongs to holiday days)
+	# API will return nearest working day data
 	if date != r_lines[0].split(' ')[0]:
 		print("Data returned from API has incorrect date")
 		print("Required date %s, API response date %s" % (date, r_lines[0].split(' ')[0]))
@@ -82,5 +83,5 @@ def get_values_for_time_period(start_date, num_of_days):
 
 print(get_values_for_time_period("16.11.2020", 5))
 
-#TODO pass data to cassana DB
+#TODO pass data to cassandra DB
 
