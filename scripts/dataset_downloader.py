@@ -1,8 +1,9 @@
-from io import StringIO
 import pandas as pd
-import datetime
 import requests
 import sys
+
+from datetime import datetime, date
+from io import StringIO
 
 bank_url = 'https://www.cnb.cz/'
 bank_api_endpoint = 'cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt?date='
@@ -13,12 +14,8 @@ def get_next_day(date):
 def check_whether_date_is_weekend(date):
 	return date.weekday() > 4
 
-def get_values_for_date(date):
-
-	if check_whether_date_is_weekend(datetime.datetime.strptime(date, "%d.%m.%Y")):
-		print("Bank API doesn't support weekend dates")
-		sys.exit(1)
-
+def get_values_for_date(timestamp):
+	date = timestamp.date().strftime("%d.%m.%Y")
 	response = requests.get(bank_url + bank_api_endpoint + date)
 
 	if response.status_code != 200:
@@ -37,51 +34,37 @@ def get_values_for_date(date):
 		print("Skipping this date")
 		return None
 
-	resultx = '\n'.join(r_lines[1:])
-	result = pd.read_csv(StringIO(resultx), sep='|')
+	result = pd.read_csv(StringIO(r), sep='|', skiprows=[0])
+	result = result.assign(timestamp=timestamp).set_index('timestamp')
 
 	return result
 
 
-def get_values_for_time_period(start_date, num_of_days):
-	
-	if num_of_days < 1:
-		print("Num of days has to be greater than zero!")
-		sys.exit(1)
+def get_values_for_time_period(start_date, end_date=None):
+	start_date = datetime.strptime(start_date, "%d.%m.%Y").date()
 
-	start_date = datetime.datetime.strptime(start_date, "%d.%m.%Y").date()
+	if end_date is None:
+		end_date = date.today()
 
-	if datetime.date.today() < start_date:
+	if end_date < start_date:
 		print("Start date shouldn't be in future!")
 		sys.exit(1)
 
-	tmp_date = start_date
-	dates = []
+	date_range = pd.bdate_range(start=start_date, end=end_date)	
 
-	for _ in range(num_of_days):
-
-		if tmp_date > datetime.date.today(): break
-
-		while check_whether_date_is_weekend(tmp_date):
-			tmp_date = get_next_day(tmp_date)
-
-		dates.append(tmp_date)
-		tmp_date = get_next_day(tmp_date)
-
-	if len(dates) < num_of_days:
-		print("There isn't enough weekdays between start_date and now!")
+	if date_range.empty:
+		print("There isn't enough business days between start date and end_date!")
 		sys.exit(1)
 
-	result = {}
+	result = pd.DataFrame()
 
-	for d in dates:
-		date_string = d.strftime("%d.%m.%Y")
-		r = get_values_for_date(date_string)
-		result[date_string] = r
-
+	for timestamp in date_range:
+		values = get_values_for_date(timestamp)
+		if values is not None:
+			result = pd.concat([result, values])
 	return result
 
-print(get_values_for_time_period("16.11.2020", 5))
+print(get_values_for_time_period("16.11.2020"))
 
 #TODO pass data to cassandra DB
 
