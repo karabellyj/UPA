@@ -8,12 +8,6 @@ from io import StringIO
 bank_url = 'https://www.cnb.cz/'
 bank_api_endpoint = 'cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt?date='
 
-def get_next_day(date):
-	return date + datetime.timedelta(days=1)
-
-def check_whether_date_is_weekend(date):
-	return date.weekday() > 4
-
 def get_values_for_date(timestamp):
 	date = timestamp.date().strftime("%d.%m.%Y")
 	response = requests.get(bank_url + bank_api_endpoint + date)
