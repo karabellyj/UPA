@@ -30,7 +30,7 @@ def get_values_for_date(timestamp):
 
 	result = pd.read_csv(StringIO(r), sep='|', skiprows=[0])
 	result = result.assign(timestamp=timestamp).set_index('timestamp')
-
+	result['kurz'] = result['kurz'].str.replace(',', '.').astype(float)
 	return result
 
 
@@ -58,7 +58,7 @@ def get_values_for_time_period(start_date, end_date=None):
 			result = pd.concat([result, values])
 	return result
 
-print(get_values_for_time_period("16.11.2020"))
+# print(get_values_for_time_period("16.11.2020"))
 
 #TODO pass data to cassandra DB
 
