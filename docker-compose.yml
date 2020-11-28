@@ -27,3 +27,15 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+  
+  timescaledb:
+    hostname: postgres
+    image: timescale/timescaledb:1.7.4-pg12
+    networks:
+      internal:
+        aliases:
+          - postgres
+    expose:
+      - 5432
+    ports:
+      - "55435:5432"
