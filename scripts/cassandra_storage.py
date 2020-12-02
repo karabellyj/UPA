@@ -1,8 +1,11 @@
+import logging
 from cassandra.cqlengine.management import sync_table
 from cassandra.cqlengine import connection
 from cassandra.cluster import Cluster
 from models import Ticker
 from dataset_downloader import get_values_for_time_period
+
+logger = logging.getLogger(__name__)
 
 class Singleton(type):
     _instances = {}
@@ -19,6 +22,7 @@ class CassandraStorage(metaclass=Singleton):
 
     def sync_tables(self):
         sync_table(Ticker)
+        logger.info('Cassandra tables synced.')
 
     def import_dataframe(self, df):
         for index, values in df.iterrows():

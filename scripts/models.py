@@ -2,7 +2,7 @@ from cassandra.cqlengine import columns
 from cassandra.cqlengine.models import Model
 
 from sqlalchemy import Column, ForeignKey, String, \
-                       Integer, Float, Date 
+                       Integer, Float, Date, UniqueConstraint
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -31,7 +31,6 @@ class CurrencyPrice(Base):
         'currency.id',
         onupdate='CASCADE',
         ondelete='CASCADE',
-        nullable=False
     ))
 
     UniqueConstraint('date', 'currency_id')
