@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import logging
 from models import Base
 from sqlalchemy import create_engine, MetaData

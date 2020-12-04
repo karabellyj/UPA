@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import logging
 from cassandra.cqlengine.management import sync_table
 from cassandra.cqlengine import connection

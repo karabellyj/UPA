@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from cassandra.cqlengine import columns
 from cassandra.cqlengine.models import Model
 
