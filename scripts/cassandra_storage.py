@@ -1,4 +1,12 @@
 #!/usr/bin/env python3
+
+# /* +--------------------------------------------------+ */
+# /* |      UPA Projekt - Kurzy devízového trhu         | */
+# /* |               cassandra_storage.py               | */
+# /* |   (c) copyright xersek00 [Martin Eršek]    2020  | */
+# /* |   (c) copyright xkarab03 [Jozef Karabelly] 2020  | */
+# /* +--------------------------------------------------+ */
+
 import logging
 from cassandra.cqlengine.management import sync_table
 from cassandra.cqlengine import connection

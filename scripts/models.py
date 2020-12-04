@@ -1,4 +1,12 @@
 #!/usr/bin/env python3
+
+# /* +--------------------------------------------------+ */
+# /* |      UPA Projekt - Kurzy devízového trhu         | */
+# /* |                    models.py                     | */
+# /* |   (c) copyright xersek00 [Martin Eršek]    2020  | */
+# /* |   (c) copyright xkarab03 [Jozef Karabelly] 2020  | */
+# /* +--------------------------------------------------+ */
+
 from cassandra.cqlengine import columns
 from cassandra.cqlengine.models import Model
 

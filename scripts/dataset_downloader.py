@@ -1,4 +1,12 @@
 #!/usr/bin/env python3
+
+# /* +--------------------------------------------------+ */
+# /* |      UPA Projekt - Kurzy devízového trhu         | */
+# /* |              dataset_downloader.py               | */
+# /* |   (c) copyright xersek00 [Martin Eršek]    2020  | */
+# /* |   (c) copyright xkarab03 [Jozef Karabelly] 2020  | */
+# /* +--------------------------------------------------+ */
+
 import pandas as pd
 import requests
 import sys
