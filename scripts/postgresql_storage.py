@@ -1,3 +1,12 @@
+#!/usr/bin/env python3
+
+# /* +--------------------------------------------------+ */
+# /* |      UPA Projekt - Kurzy devízového trhu         | */
+# /* |              postgresql_storage.py               | */
+# /* |   (c) copyright xersek00 [Martin Eršek]    2020  | */
+# /* |   (c) copyright xkarab03 [Jozef Karabelly] 2020  | */
+# /* +--------------------------------------------------+ */
+
 import logging
 from models import Base, Currency, CurrencyPrice
 from sqlalchemy import create_engine, MetaData
