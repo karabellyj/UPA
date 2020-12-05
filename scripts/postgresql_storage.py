@@ -1,5 +1,5 @@
 import logging
-from models import Base
+from models import Base, Currency, CurrencyPrice
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker
 
@@ -38,3 +38,11 @@ class PostgresStorage(metaclass=Singleton):
         Base.metadata.create_all(self.db)
         logger.info('PostgreSQL tables synced.')
     
+    def import_cassandra_records(self, records):
+        for record in records:
+            currency = Currency(code=record.name, country=record.country)
+
+            price = CurrencyPrice(date=record.time, value=record.value/record.quantity)
+            currency.prices.append(price)
+            self.session.add(currency)
+            self.session.commit()

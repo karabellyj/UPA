@@ -4,6 +4,8 @@ import sys
 
 from datetime import datetime, date
 from io import StringIO
+from cassandra_storage import CassandraStorage
+from postgresql_storage import PostgresStorage
 
 bank_url = 'https://www.cnb.cz/'
 bank_api_endpoint = 'cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt?date='
@@ -39,6 +41,8 @@ def get_values_for_time_period(start_date, end_date=None):
 
 	if end_date is None:
 		end_date = date.today()
+	else:
+		end_date = datetime.strptime(end_date, "%d.%m.%Y").date()
 
 	if end_date < start_date:
 		print("Start date shouldn't be in future!")
@@ -59,6 +63,22 @@ def get_values_for_time_period(start_date, end_date=None):
 	return result
 
 # print(get_values_for_time_period("16.11.2020"))
+def extract_and_transform(start_date, end_date=None):
+	extracted_data = get_values_for_time_period(start_date=start_date, end_date=end_date)
+	
+	cassandra_storage = CassandraStorage()
+	cassandra_storage.import_dataframe(extracted_data)
+
+	start_date = datetime.strptime(start_date, "%d.%m.%Y").date()
+	if end_date is not None:
+		end_date = datetime.strptime(end_date, "%d.%m.%Y").date()
+
+	qs = cassandra_storage.filter_by_date_range(start_date, end_date)
+
+	postgres_storage = PostgresStorage()
+	postgres_storage.import_cassandra_records(qs.all())
+
 
 #TODO pass data to cassandra DB
 
+# extract_and_transform("16.11.2020")

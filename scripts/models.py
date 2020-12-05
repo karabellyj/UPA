@@ -18,7 +18,7 @@ Base = declarative_base()
 class Currency(Base):
     __tablename__ = 'currency'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    code = Column('code', String(5), nullable=False)
+    code = Column('code', String(5), nullable=False, unique=True)
     country = Column('country', String(256), nullable=False)
 
 class CurrencyPrice(Base):
@@ -34,4 +34,4 @@ class CurrencyPrice(Base):
     ))
 
     UniqueConstraint('date', 'currency_id')
-    currency = relationship('Currency')
+    currency = relationship('Currency', back_populates='prices')
