@@ -90,4 +90,5 @@ def extract_and_transform(start_date, end_date=None):
 
 #TODO pass data to cassandra DB
 
-# extract_and_transform("16.11.2020")
+extract_and_transform("16.11.2020")
+PostgresStorage().get_all_to_df()

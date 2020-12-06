@@ -29,6 +29,9 @@ class Currency(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     code = Column('code', String(5), nullable=False, unique=True)
     country = Column('country', String(256), nullable=False)
+    
+    prices = relationship('CurrencyPrice', back_populates='currency')
+
 
 class CurrencyPrice(Base):
     __tablename__ = 'currency_price'

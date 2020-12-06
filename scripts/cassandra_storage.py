@@ -37,7 +37,8 @@ class CassandraStorage(metaclass=Singleton):
             Ticker.create(name=values['kód'], time=index.date(), quantity=values['množství'], country=values['země'], value=values['kurz'])
     
     def filter_by_date_range(self, from_date, to_date=None):
-        q = Ticker.objects.filter(name='*', time__gte=from_date)
+        q = Ticker.objects.all()
+        q = q.filter(time__gte=from_date)
         if to_date:
             q.filter(time_lte=to_date)
-        return q
+        return Ticker.objects.all()

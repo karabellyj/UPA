@@ -49,9 +49,16 @@ class PostgresStorage(metaclass=Singleton):
     
     def import_cassandra_records(self, records):
         for record in records:
-            currency = Currency(code=record.name, country=record.country)
+            currency = self.session.query(Currency).filter(Currency.code == record.name).first()
+            if not currency:
+                currency = Currency(code=record.name, country=record.country)
 
             price = CurrencyPrice(date=record.time, value=record.value/record.quantity)
             currency.prices.append(price)
             self.session.add(currency)
             self.session.commit()
+    
+    def get_all_to_df(self):
+        # records = self.session.query(Currency).join(CurrencyPrice, Currency.id == CurrencyPrice.currency_id).all()
+        records = self.session.query(CurrencyPrice, Currency).join(Currency)
+        return records
