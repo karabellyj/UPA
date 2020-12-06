@@ -1,4 +1,4 @@
-.cassandra_data/*
+cassandra_data
 .venv/*
 .vscode/*
 *.pyc
