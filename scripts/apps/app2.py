@@ -53,7 +53,7 @@ def update_output(start_date, end_date):
         end_date_string = end_date_object.strftime('%B %d, %Y')
         filtered_df = filtered_df.loc[filtered_df.index < end_date_object]
 
-    log_returns = (np.log(filtered_df.diff()).std() *
+    log_returns = (filtered_df.pct_change().std() *
                    np.sqrt(252)).sort_values().dropna()
     return html.Div([
         dbc.Row([
