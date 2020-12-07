@@ -7,6 +7,7 @@
 # /* |   (c) copyright xkarab03 [Jozef Karabelly] 2020  | */
 # /* +--------------------------------------------------+ */
 
+import argparse
 import pandas as pd
 import requests
 import sys
@@ -46,12 +47,12 @@ def get_values_for_date(timestamp):
 
 
 def get_values_for_time_period(start_date, end_date=None):
-	start_date = datetime.strptime(start_date, "%d.%m.%Y").date()
+	start_date = start_date.date()
 
 	if end_date is None:
 		end_date = date.today()
-	else:
-		end_date = datetime.strptime(end_date, "%d.%m.%Y").date()
+	# else:
+		# end_date = datetime.strptime(end_date, "%d.%m.%Y").date()
 
 	if end_date < start_date:
 		print("Start date shouldn't be in future!")
@@ -71,16 +72,15 @@ def get_values_for_time_period(start_date, end_date=None):
 			result = pd.concat([result, values])
 	return result
 
-# print(get_values_for_time_period("16.11.2020"))
 def extract_and_transform(start_date, end_date=None):
 	extracted_data = get_values_for_time_period(start_date=start_date, end_date=end_date)
 	
 	cassandra_storage = CassandraStorage()
 	cassandra_storage.import_dataframe(extracted_data)
 
-	start_date = datetime.strptime(start_date, "%d.%m.%Y").date()
-	if end_date is not None:
-		end_date = datetime.strptime(end_date, "%d.%m.%Y").date()
+	# start_date = datetime.strptime(start_date, "%d.%m.%Y").date()
+	# if end_date is not None:
+		# end_date = datetime.strptime(end_date, "%d.%m.%Y").date()
 
 	qs = cassandra_storage.filter_by_date_range(start_date, end_date)
 
@@ -88,7 +88,18 @@ def extract_and_transform(start_date, end_date=None):
 	postgres_storage.import_cassandra_records(qs.all())
 
 
-#TODO pass data to cassandra DB
+def valid_date(s):
+    try:
+        return datetime.strptime(s, "%d.%m.%Y")
+    except ValueError:
+        msg = "Not a valid date: '{0}'.".format(s)
+        raise argparse.ArgumentTypeError(msg)
 
-extract_and_transform("16.11.2020")
-PostgresStorage().get_all_to_df()
+if __name__ == "__main__":
+	parser = argparse.ArgumentParser(description='Dataset Downloader')
+	
+	parser.add_argument('--start_date', action='store', type=valid_date, required=True, help='Dataset start date in format: "%d.%m.%Y"')
+	parser.add_argument('--end_date', action='store', type=valid_date, help='Dataset end date in format: "%d.%m.%Y"')
+
+	args = parser.parse_args()
+	extract_and_transform(start_date=args.start_date, end_date=args.end_date)
